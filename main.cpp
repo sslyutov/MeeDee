@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     
     QApplication app(argc, argv);
      
-    QApplication::setOrganizationName("Inetgrad");
+    QApplication::setOrganizationName("Inetgrad"); 
     
     QApplication::setApplicationName("MeeDee");
     
@@ -48,20 +48,9 @@ int main(int argc, char *argv[])
     
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
     
-    //QPushButton *button = new QPushButton("About", &mainWindow);
-    
-    //layout->addWidget(button);
-    
     centralWidget->setLayout(layout);
     
     mainWindow.setCentralWidget(centralWidget);
-    
-    /*
-    QObject::connect(button, &QPushButton::clicked,  [=](){
-        QString version("MeeDee v.1.0.0");
-        QString strmsg = QString("number of MIDI devices %1. \n").arg(
-        QMessageBox::information(NULL, qApp->applicationDisplayName(), "MeeDee v 1.0.0");
-    });*/
     
     mainWindow.show();
     
