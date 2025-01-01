@@ -20,7 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-    ItemCount deviceCount = MIDIGetNumberOfDevices();
+    //ItemCount deviceCount = MIDIGetNumberOfDevices();
     
     QApplication app(argc, argv);
      

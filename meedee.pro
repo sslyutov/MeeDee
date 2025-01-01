@@ -1,12 +1,24 @@
+TEMPLATE = app
+
+TARGET = MeeDee
+
 VERSION = 1.0.0
 
 DEFINES += APP_VERSION=\\\"$${VERSION}\\\"
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += ios
+
+CONFIG += debug release
+
 CONFIG += c++17
+
+CONFIG +=sdk_no_version_check
+
+CONFIG += device
 
 SRCROOT = ./
 INCROOT = ./
@@ -18,12 +30,14 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     main.cpp \
-    $${SRCROOT}/about/about.cpp
+    $${SRCROOT}/about/about.cpp \
+    mididevman/mididevman.cpp
     $${SRCROOT}/mididevman/mididevman.cpp
 #    mainwindow.cpp
 
 HEADERS += \
-    $${INCROOT}/about/about.h
+    $${INCROOT}/about/about.h \
+    mididevman/mididevman.h
     $${INCROOT}/mididevman/mididevman.h
 #    mainwindow.h
 
