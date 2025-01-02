@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
-    <height>524</height>
+    <width>578</width>
+    <height>417</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>1</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="geninfotab">
         <attribute name="title">
@@ -32,7 +32,7 @@
             <string>TextLabel</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignCenter</set>
+            <set>Qt::AlignmentFlag::AlignCenter</set>
            </property>
            <property name="wordWrap">
             <bool>false</bool>
@@ -71,11 +71,26 @@
             <string>TextLabel</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+            <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
            </property>
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="QWidget" name="midisrctab">
+        <attribute name="title">
+         <string>MIDI Sources</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="mididsttab">
+        <attribute name="title">
+         <string>MIDI Destinations</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="midiexttab">
+        <attribute name="title">
+         <string>MIDI Externals</string>
+        </attribute>
        </widget>
       </widget>
      </item>
@@ -93,7 +108,7 @@
      <item row="0" column="0">
       <spacer name="horizontalSpacer">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>

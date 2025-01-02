@@ -24,6 +24,12 @@ public:
     
     virtual ~CAbout();
     
+    void refreshMidiSources(void);
+
+    void refreshMIDIDestinations(void);
+    
+    void refreshExternalDevices(void);
+    
     void refreshMidiDevices(void);
     
     void refreshMidiDevsDetails(QString devname);

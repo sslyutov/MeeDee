@@ -99,6 +99,45 @@ void CAbout::refreshMidiDevices()
     //refreshMidiDevsDetails(m_ui.tableMidiDevs->item(m_ui.tableMidiDevs->currentRow(), 0)->data(Qt::UserRole).toString());
 };
 
+
+void CAbout::refreshMidiSources(void)
+{
+    ItemCount srcnum = MIDIGetNumberOfSources();
+    for(ItemCount c = 0; c < srcnum; c++){
+        MIDIEndpointRef endpoint = MIDIGetSource(c);
+        
+        CFStringRef name;
+        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+        
+        CFStringRef model;
+        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyModel, &model);
+ 
+        CFStringRef manuf;
+        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyManufacturer, &manuf);
+        
+        CFStringRef uniqid;
+        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyUniqueID, &uniqid);
+        
+        CFStringRef devid;
+        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyDeviceID, &devid);
+    }
+}
+void CAbout::refreshMIDIDestinations(void)
+{
+    ItemCount  dstnum = MIDIGetNumberOfDestinations();
+    for(ItemCount c = 0; c < dstnum; c++){
+        MIDIEndpointRef endpoint = MIDIGetDestination(c);
+    }
+}
+
+void CAbout::refreshExternalDevices()
+{
+    ItemCount extnum = MIDIGetNumberOfExternalDevices();
+    for (ItemCount c = 0 ; c < extnum; c++) {
+        MIDIEndpointRef endpoint = MIDIGetExternalDevice(c);
+    }
+}
+
 void CAbout::refreshMidiDevsDetails(QString devname)
 {
     
