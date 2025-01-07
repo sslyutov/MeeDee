@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>578</width>
-    <height>417</height>
+    <width>647</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>4</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="geninfotab">
         <attribute name="title">
@@ -46,7 +46,7 @@
        </widget>
        <widget class="QWidget" name="miditab">
         <attribute name="title">
-         <string>MIDI</string>
+         <string>MIDI Devices</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -81,16 +81,31 @@
         <attribute name="title">
          <string>MIDI Sources</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_6">
+         <item>
+          <widget class="QTableWidget" name="tableMIDISrc"/>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="mididsttab">
         <attribute name="title">
          <string>MIDI Destinations</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QTableWidget" name="tableMIDIDest"/>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="midiexttab">
         <attribute name="title">
          <string>MIDI Externals</string>
         </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QTableWidget" name="tableMIDIExt"/>
+         </item>
+        </layout>
        </widget>
       </widget>
      </item>

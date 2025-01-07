@@ -20,7 +20,7 @@ class CAbout: public QWidget
     
 public:
     
-    CAbout();
+    CAbout(); 
     
     virtual ~CAbout();
     
