@@ -128,11 +128,14 @@ auto readCallback = [](const MIDIEventList *evtlist, void * __nullable srcConnRe
 {
     for (unsigned int i = 0; i < evtlist->numPackets; ++i) {
         const MIDIEventPacket &packet = evtlist->packet[i];
-        qDebug() << "Timestamp: " << packet.timeStamp << " Data: ";
+        qDebug() << "srcConnRefCon: " << srcConnRefCon << "; Timestamp: " << packet.timeStamp << " Data: ";
         
         for (unsigned int j = 0; j < packet.wordCount; ++j) {
             qDebug() << "wordCount:" << packet.wordCount << "; index:" << j << std::hex << static_cast<UInt32>(packet.words[j]) << " ";
         }
+        
+        CLighthouse::This()->emit midiEventList(evtlist, srcConnRefCon);
+        
     }
 };
 

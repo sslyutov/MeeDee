@@ -5,8 +5,14 @@
 
 #include "midirecorder.h"
 
+#include "lighthouse.h"
+
 CMidiRecorder::CMidiRecorder(): QWidget()
 {
+    
+    bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](){
+        
+    });
    
 }
 
