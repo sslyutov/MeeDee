@@ -8,7 +8,7 @@
 
 #define _ABOUT_H
 
-#include "ui_about.h"
+#include "ui_about.h" 
 
 #include <CoreMIDI/CoreMIDI.h>
 

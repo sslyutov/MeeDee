@@ -1,27 +1,17 @@
 #include <QApplication>
 
-#include <QWidget>
-
-#include <QMenu>
-
-#include <QMenuBar>
-
-#include <QMessageBox>
-
-#include <QVBoxLayout>	
-
-#include <QPushButton>
-
-#include <QMainWindow>
-
 #include <CoreMIDI/CoreMIDI.h>
 
-#include "about.h"
+#include "midiinputport.h"
+
+#include "midioutputport.h"
+
+#include "lighthouse.h"
+
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    //ItemCount deviceCount = MIDIGetNumberOfDevices();
-    
     QApplication app(argc, argv);
      
     QApplication::setOrganizationName("Inetgrad"); 
@@ -30,29 +20,17 @@ int main(int argc, char *argv[])
     
     QApplication::setApplicationVersion(APP_VERSION);
     
-    QMainWindow mainWindow;
-      
-    QWidget *centralWidget = new QWidget(&mainWindow);
+    CMIDIInputPort::This(); // instanciate midiinputport;
     
-    QMenuBar menubar;
+    CMIDIOutputPort::This(); // instanciate midioutput;
     
-    QAction * pactabout = menubar.addAction("About");
+    CLighthouse::This(); // instanciate lighhouse
     
-    QObject::connect(pactabout, &QAction::triggered,[=](){
-        
-        (new CAbout())->show();
-        
-    });
+    CMainWindow mainwindow;
     
-    mainWindow.setMenuBar(&menubar);
-    
-    QVBoxLayout *layout = new QVBoxLayout(centralWidget);
-    
-    centralWidget->setLayout(layout);
-    
-    mainWindow.setCentralWidget(centralWidget);
-    
-    mainWindow.show();
+    mainwindow.show();
     
     app.exec();
+    
+    CMIDIInputPort::This()->terminate();
 };

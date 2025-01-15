@@ -293,7 +293,7 @@ void CAbout::refreshMidiDevsDetails(QString devname)
         if( QString::fromCFString(deviceName).compare(devname, Qt::CaseInsensitive) == 0){
             
             SInt32 offline;
-                
+                 
             MIDIObjectGetIntegerProperty(device, kMIDIPropertyOffline, &offline);
                 
             details += QString("status: %1").arg((offline) ? "offline": "online") ;

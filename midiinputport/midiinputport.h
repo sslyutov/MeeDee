@@ -33,7 +33,9 @@ public:
     
     static void reignite(void);
     
-    static void cbMidiRead(const MIDIPacketList * packetlist, void * readProcRefCon, void * srcConnRefCon );
+    //static void cbMidiRead(const MIDIPacketList * packetlist, void * readProcRefCon, void * srcConnRefCon );
+    
+    static void cbmidiRead(const MIDIPacketList *packetList, void *srcConnRefCon);
     
     static void cdMidiSourcesWatcher(void);
 
@@ -53,4 +55,4 @@ private:
     
 };
 
-#endif // _MIDIINPUTPORT_H
+#endif // _MIDIINPUTPORT_H 
