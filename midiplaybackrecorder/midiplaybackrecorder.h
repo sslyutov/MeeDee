@@ -15,7 +15,7 @@
 
 #include <QDockWidget>
 
-#define PLAYBACKRECORDERDOC "PlaybackRecorderDock"
+#define PLAYBACKRECORDERDOC "PlaybackRecorderDock" // object name for playbackrecorder QDockWidget
 
 QDockWidget * createPlaybackRecorderDoc(void);
 
