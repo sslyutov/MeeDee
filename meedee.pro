@@ -63,6 +63,8 @@ INCLUDEPATH += $${INCROOT}/midirecorder
 INCLUDEPATH += $${INCROOT}/midiplayer
 INCLUDEPATH += $${INCROOT}/midiplaybackrecorder
 
+RESOURCES += meedee.qrc
+
 mac{
     LIBS += -framework CoreMIDI
 }
