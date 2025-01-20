@@ -33,7 +33,7 @@ CMainWindow::CMainWindow(): QMainWindow()
     QMenu * aboutmenu = menuBar()->addMenu(QApplication::tr("About"));
     QToolBar * maintoolbar = new QToolBar(this);
     
-    QAction * pactabout = aboutmenu->addAction(QApplication::tr("About MeeDee"));
+    QAction * pactabout = aboutmenu->addAction(QIcon(":/meedeeabout.png"), QApplication::tr("About MeeDee"));
     maintoolbar->addAction(pactabout);
     QObject::connect(pactabout, &QAction::triggered,[=](){
         (new CAbout())->show();
@@ -56,7 +56,7 @@ CMainWindow::CMainWindow(): QMainWindow()
         
     QMenu * viewMenu = menuBar()->addMenu(QApplication::tr("View"));
     QToolBar * viewtoolbar = new QToolBar(this);
-    QAction * playbackRecorderAction = viewMenu->addAction(QApplication::tr("Playback-Recorder"));
+    QAction * playbackRecorderAction = viewMenu->addAction(QIcon(":/playbackrecorder.png"), QApplication::tr("Playback-Recorder"));
     playbackRecorderAction->setCheckable(true);
     playbackRecorderAction->setChecked(findChild<QDockWidget*>(PLAYBACKRECORDERDOC));
     viewtoolbar->addAction(playbackRecorderAction);
@@ -75,16 +75,19 @@ CMainWindow::CMainWindow(): QMainWindow()
     
     
     QDockWidget * ptracksdoc = new QDockWidget();
+    ptracksdoc->setFeatures(ptracksdoc->features() & ~QDockWidget::DockWidgetClosable);
     QWidget * ptrackswidget = new QWidget();
     ptrackswidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     ptracksdoc->setWidget(ptrackswidget);
     addDockWidget(Qt::RightDockWidgetArea, ptracksdoc);
         
     QDockWidget * pnotesdoc = new QDockWidget();
+    pnotesdoc->setFeatures(pnotesdoc->features() & ~QDockWidget::DockWidgetClosable);
+
     QWidget * pnoteswidget = new QWidget();
     
     pnoteswidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    pnoteswidget->setMinimumHeight(50);
+    pnoteswidget->setMinimumHeight(150);
     pnotesdoc->setWidget(pnoteswidget);
     addDockWidget(Qt::BottomDockWidgetArea, pnotesdoc);
 

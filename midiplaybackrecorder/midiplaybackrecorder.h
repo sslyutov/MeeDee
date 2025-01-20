@@ -15,6 +15,8 @@
 
 #include <QDockWidget>
 
+#include "ui_midiplaybackrecorder.h"
+
 #define PLAYBACKRECORDERDOC "PlaybackRecorderDock" // object name for playbackrecorder QDockWidget
 
 QDockWidget * createPlaybackRecorderDoc(void);
@@ -43,6 +45,8 @@ public:
 private:
     
     QString m_name;
+    
+    Ui_MidiPlaybackRecorderForm m_ui;
 };
 
 #endif // _MIDIPLAYBACKRECORDER_H

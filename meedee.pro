@@ -51,6 +51,7 @@ HEADERS += $${INCROOT}/midiplayer/midiplayer.h
 HEADERS += $${INCROOT}/midiplaybackrecorder/midiplaybackrecorder.h
 
 FORMS += $${FRMROOT}/about/about.ui
+FORMS += $${FRMROOT}/midiplaybackrecorder/midiplaybackrecorder.ui
 
 INCLUDEPATH += $${INCROOT}
 INCLUDEPATH += $${INCROOT}/mainwindow

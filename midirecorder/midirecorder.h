@@ -29,15 +29,17 @@ public:
      * \param chan index of the source. valid values between 1 and 16.
      * \param clearprev indicates whether to clean previous content of m_srcchan.
      *  */
-    void addsource(int src, int chan, bool clearprev = false){
-        
-        if(clearprev)
-            
-            m_srcchans.clear();
-        
-        m_srcchans.push_back({src, chan});
-    }
-        
+    //void addsource(int src, int chan, bool clearprev = false){
+    //
+    //    if(clearprev)
+    //
+    //        m_srcchans.clear();
+    //
+    //    m_srcchans.push_back({src, chan});
+    //}
+
+    void setsource(int src, int chan);
+    
     void start(void);
     
     void stop(void);
@@ -46,5 +48,11 @@ public:
     
 private:
     
-    QVector<ns_midispecs::srcchan> m_srcchans;
+    //QVector<ns_midispecs::srcchan> m_srcchans;
+    
+    int m_srcid;
+    
+    int m_chan;
+    
+    
 };
