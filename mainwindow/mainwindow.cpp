@@ -21,6 +21,8 @@
 
 #include "midiplaybackrecorder.h"
 
+#include "lighthouse.h"
+
 CMainWindow::CMainWindow(): QMainWindow()
 {
     setWindowTitle(QApplication::tr("mainwindow creation"));
@@ -69,9 +71,26 @@ CMainWindow::CMainWindow(): QMainWindow()
         }
     });
     
+    // control menu and toolbar
+    QMenu* recordplayMenu = menuBar()->addMenu(QApplication::tr("Control"));
+    QToolBar * recordplaytoolbar = new QToolBar(this);
+    QAction* pstartrecordaction = recordplayMenu->addAction(QIcon(":/startrecording"), QApplication::tr("Start &record"));
+    QAction* pstoprecordaction = recordplayMenu->addAction(QIcon(":/stoprecording"), QApplication::tr("&Stop record"));
+    QAction* pstartplayaction = recordplayMenu->addAction(QIcon(":/startplayback"), QApplication::tr("Start &playback"));
+    QAction* pstopplayaction = recordplayMenu->addAction(QApplication::tr("S&top playback"));
+    recordplaytoolbar->addAction(pstartrecordaction);
+    recordplaytoolbar->addAction(pstoprecordaction);
+    recordplaytoolbar->addAction(pstartplayaction);
+    recordplaytoolbar->addAction(pstopplayaction);
+    QObject::connect(pstartrecordaction,&QAction::triggered, [=](){CLighthouse::This()->emit CLighthouse::startRecording(); });
+    QObject::connect(pstoprecordaction, &QAction::triggered, [=](){CLighthouse::This()->emit CLighthouse::stopRecording();  });
+    QObject::connect(pstartplayaction,  &QAction::triggered, [=](){CLighthouse::This()->emit CLighthouse::startPlayback();  });
+    QObject::connect(pstopplayaction,   &QAction::triggered, [=](){CLighthouse::This()->emit CLighthouse::stopPlayback();   });
+    
     addToolBar(creationtoolbar);
     addToolBar(viewtoolbar);
     addToolBar(maintoolbar);
+    addToolBar(recordplaytoolbar);
     
     
     QDockWidget * ptracksdoc = new QDockWidget();

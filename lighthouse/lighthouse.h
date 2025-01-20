@@ -17,8 +17,8 @@ class CLighthouse: public QWidget
 {
     Q_OBJECT
     
-private: 
-
+    private:
+    
     CLighthouse():QWidget()
     {
         m_this = this;
@@ -27,7 +27,7 @@ private:
     ~CLighthouse(){m_this = NULL;};
     
     inline static CLighthouse * m_this = NULL;
-  
+    
 public:
     
     static CLighthouse* This(){
@@ -39,13 +39,24 @@ public:
         return m_this;
     }
     
-    signals:
+signals:
     
-        void heartbit_0xfe(uint64_t timestampnanoseconds);
+    void heartbit_0xfe(uint64_t timestampnanoseconds);
     
-        void reignite(void);
+    void reignite(void);
     
-        void midiEventList (const MIDIEventList *evtlist, void * __nullable srcConnRefCon);
+    void midiEventList (const MIDIEventList *evtlist, void * __nullable srcConnRefCon);
+    
+    // control signal to start and stop recording and playback
+
+    void startRecording();
+    
+    void stopRecording();
+    
+    void startPlayback();
+    
+    void stopPlayback();
+    
 };
 
 //Q_DECLARE_METATYPE(MIDIEventList)

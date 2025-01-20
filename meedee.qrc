@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file alias="playbackrecorder.png">images/playbackrecorder.png</file>
         <file alias="meedeeabout.png">images/meedeeabout.png</file>
+        <file alias="mainbackground">images/midnight_forest_rain_moon.png</file>
+        <file alias="startplayback">images/startplayback.png</file>
+        <file alias="startrecording">images/startrecording.png</file>
+        <file alias="stoprecording">images/stoprecording.png</file>
     </qresource>
 </RCC>

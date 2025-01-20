@@ -19,6 +19,8 @@
 
 #include <CoreMIDI/CoreMIDI.h>
 
+#include "lighthouse.h"
+
 void addMidiPlaybackRecorderTrack(QTreeWidget * ptreewidget)
 {
     QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
@@ -79,6 +81,17 @@ CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
     m_ui.setupUi(this);
     
     m_ui.lineEditPlayRecName->setText(m_name);
+    
+    QObject::connect(CLighthouse::This(), &CLighthouse::startRecording, [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle start recording", QMessageBox::Ok);});
+    QObject::connect(CLighthouse::This(), &CLighthouse::stopRecording,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop recording", QMessageBox::Ok);});
+    QObject::connect(CLighthouse::This(), &CLighthouse::startPlayback,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle start playback", QMessageBox::Ok);});
+    QObject::connect(CLighthouse::This(), &CLighthouse::stopPlayback,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop playback", QMessageBox::Ok);});
+    
+    
+    
+    
+    
+    
     
     // sources combobox
     ItemCount sourceCount = MIDIGetNumberOfSources();
