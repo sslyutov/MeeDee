@@ -78,7 +78,7 @@ CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
 {
     m_ui.setupUi(this);
     
-    m_ui.lineEditPlayRecName(m_name);
+    m_ui.lineEditPlayRecName->setText(m_name);
     
     // sources combobox
     ItemCount sourceCount = MIDIGetNumberOfSources();
