@@ -10,13 +10,19 @@
 
 #include <QVector>
 
+#include "IMidiRecorder.h"
+
 /*!\class CMidiRecorder collects midi messages with the respect of sources configuration
  * the source configuration is determined by data member m_srcchan.
  * is m_srcchan is empty then all messages are collected.
  */
-class CMidiRecorder: public QWidget
+class CMidiRecorder:
+    public IMidiRecorder
+    , public QWidget
 {
     Q_OBJECT
+    
+    Q_INTERFACES(IMidiRecorder)
         
 public:
     
@@ -38,13 +44,13 @@ public:
     //    m_srcchans.push_back({src, chan});
     //}
 
-    void setsource(int src, int chan);
+    void setsource(int src, int chan){};
     
-    void start(void);
+    void start(void){};
     
-    void stop(void);
+    void stop(void){};
     
-    void pause(void);
+    void pause(void){};
     
 private:
     
@@ -54,5 +60,5 @@ private:
     
     int m_chan;
     
-    
+    int m_state;
 };

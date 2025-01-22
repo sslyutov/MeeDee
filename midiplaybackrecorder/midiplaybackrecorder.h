@@ -7,7 +7,7 @@
 
 #define _MIDIPLAYBACKRECORDER_H
 
-#include "midiPlayer.h"
+// #include "midiPlayer.h"
 
 #include "midirecorder.h"
 
@@ -43,10 +43,12 @@ public:
     void mutePlayback(void); // simulates playback by going through the recorder midi messages without output to destination
 
 private:
-    
+     
     QString m_name;
     
     Ui_MidiPlaybackRecorderForm m_ui;
+    
+    CMidiRecorder   m_midirecorder;
 };
 
 #endif // _MIDIPLAYBACKRECORDER_H

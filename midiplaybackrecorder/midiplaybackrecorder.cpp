@@ -82,28 +82,24 @@ CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
     
     m_ui.lineEditPlayRecName->setText(m_name);
     
-    QObject::connect(CLighthouse::This(), &CLighthouse::startRecording, [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle start recording", QMessageBox::Ok);});
-    QObject::connect(CLighthouse::This(), &CLighthouse::stopRecording,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop recording", QMessageBox::Ok);});
-    QObject::connect(CLighthouse::This(), &CLighthouse::startPlayback,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle start playback", QMessageBox::Ok);});
-    QObject::connect(CLighthouse::This(), &CLighthouse::stopPlayback,  [](){ QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop playback", QMessageBox::Ok);});
+    QObject::connect(CLighthouse::This(), &CLighthouse::startRecording, this, &CMidiPlaybackRecorder::startRecording);
     
+    QObject::connect(CLighthouse::This(), &CLighthouse::stopRecording, this, &CMidiPlaybackRecorder::stopRecording);
     
+    QObject::connect(CLighthouse::This(), &CLighthouse::startPlayback,  [](){
+        QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle start playback", QMessageBox::Ok);
+    });
     
-    
-    
-    
+    QObject::connect(CLighthouse::This(), &CLighthouse::stopPlayback,  [](){
+        QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop playback", QMessageBox::Ok);
+    });
     
     // sources combobox
     ItemCount sourceCount = MIDIGetNumberOfSources();
-    
     for (ItemCount i = 0; i < sourceCount; ++i) {
-        
         MIDIEndpointRef endpoint = MIDIGetSource(i);
-        
         CFStringRef name = nullptr;
-        
         MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
-        
         m_ui.comboSources->addItem(QString::fromCFString(name));
     }
     // sources channels
@@ -115,15 +111,10 @@ CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
     
     // destination combobox
     ItemCount destCount = MIDIGetNumberOfDestinations();
-    
     for(ItemCount i = 0; i < destCount; i++){
-        
         MIDIEndpointRef endpoint = MIDIGetDestination(i);
-        
         CFStringRef name = nullptr;
-        
         MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
-        
         m_ui.comboDestinations->addItem(QString::fromCFString(name));
     }
     // destination channels
@@ -137,10 +128,14 @@ CMidiPlaybackRecorder:: ~CMidiPlaybackRecorder()
 {};
 
 void CMidiPlaybackRecorder::startRecording(void)
-{};
+{
+    m_midirecorder.start();
+};
 
 void CMidiPlaybackRecorder::stopRecording(void)
-{};
+{
+    m_midirecorder.stop();
+};
 
 void CMidiPlaybackRecorder::startPlayback(void)
 {};
