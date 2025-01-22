@@ -17,10 +17,10 @@
  * is m_srcchan is empty then all messages are collected.
  */
 class CMidiRecorder:
-    public IMidiRecorder
-    , public QWidget
+    public QWidget
+, public IMidiRecorder
 {
-    Q_OBJECT
+    //Q_OBJECT
     
     Q_INTERFACES(IMidiRecorder)
         

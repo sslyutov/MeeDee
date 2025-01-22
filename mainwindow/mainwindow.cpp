@@ -25,6 +25,8 @@
 
 CMainWindow::CMainWindow(): QMainWindow()
 {
+    m_bgimage.load(":mainwindowbackground");
+    
     setWindowTitle(QApplication::tr("mainwindow creation"));
     
     QWidget * pcentralWidget = new QWidget(); 

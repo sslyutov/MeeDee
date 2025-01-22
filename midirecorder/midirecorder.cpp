@@ -7,7 +7,7 @@
 
 #include "lighthouse.h"
 
-CMidiRecorder::CMidiRecorder(): QWidget()
+CMidiRecorder::CMidiRecorder(): QWidget(), IMidiRecorder()
 {
     
     bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon){

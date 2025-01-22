@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file alias="mainwindowbackground">images/midnight_forest_rain_moon.png</file>
         <file alias="playbackrecorder.png">images/playbackrecorder.png</file>
         <file alias="meedeeabout.png">images/meedeeabout.png</file>
         <file alias="mainbackground">images/midnight_forest_rain_moon.png</file>

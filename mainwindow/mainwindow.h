@@ -9,6 +9,8 @@
 
 #include <QMainWindow>
 
+#include <QPainter>
+
 class CMainWindow: public QMainWindow
 {
 
@@ -19,7 +21,23 @@ public:
     CMainWindow();
     
     virtual ~CMainWindow(){};
+    
+protected:
+    void resizeEvent(QResizeEvent *event) override {
+            QMainWindow::resizeEvent(event);
 
+            // Scale the image to fit the new window size
+            QImage scaledImage = m_bgimage.scaled(size(), Qt::KeepAspectRatioByExpanding);
+            
+            // Set the scaled image as the background
+            QPalette palette;
+            palette.setBrush(QPalette::Window, QBrush(scaledImage));
+            setPalette(palette);
+        }
+
+private:
+    QImage m_bgimage;
+    
 };
 
 #endif // _MAINWINDOW_H
