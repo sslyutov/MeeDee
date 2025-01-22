@@ -50,6 +50,9 @@ HEADERS += $${INCROOT}/midirecorder/midirecorder.h
 HEADERS += $${INCROOT}/midiplayer/midiplayer.h
 HEADERS += $${INCROOT}/midiplaybackrecorder/midiplaybackrecorder.h
 
+#interfaces
+HEADERS += $${INCROOT}/midirecorder/imidirecorder.h
+
 FORMS += $${FRMROOT}/about/about.ui
 FORMS += $${FRMROOT}/midiplaybackrecorder/midiplaybackrecorder.ui
 
