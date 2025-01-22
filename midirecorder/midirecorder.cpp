@@ -10,9 +10,13 @@
 CMidiRecorder::CMidiRecorder(): QWidget()
 {
     
-    bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](){
+    bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon){
         
+        qDebug() << "midi event list";
+                
     });
+    
+    qDebug() << bcon;
    
 }
 
