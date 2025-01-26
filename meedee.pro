@@ -39,6 +39,7 @@ SOURCES += $${SRCROOT}/midioutputport/midioutputport.cpp
 SOURCES += $${SRCROOT}/midirecorder/midirecorder.cpp
 SOURCES += $${SRCROOT}/midiplayer/midiplayer.cpp
 SOURCES += $${SRCROOT}/midiplaybackrecorder/midiplaybackrecorder.cpp
+SOURCES += $${SRCROOT}/midiplaybacksampler/midiplaybacksampler.cpp
 
 HEADERS += $${INCROOT}/mainwindow/mainwindow.h
 HEADERS += $${INCROOT}/about/about.h
@@ -49,6 +50,7 @@ HEADERS += $${INCROOT}/midioutputport/midioutputport.h
 HEADERS += $${INCROOT}/midirecorder/midirecorder.h
 HEADERS += $${INCROOT}/midiplayer/midiplayer.h
 HEADERS += $${INCROOT}/midiplaybackrecorder/midiplaybackrecorder.h
+HEADERS += $${INCROOT}/midiplaybacksampler/midiplaybacksampler.h
 
 #interfaces
 HEADERS += $${INCROOT}/midirecorder/imidirecorder.h
