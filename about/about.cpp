@@ -11,6 +11,8 @@
 
 #include <CoreMIDI/CoreMIDI.h>
 
+#include <AudioToolbox/AudioToolbox.h>
+
 #include <QLabel>
 
 #include <QTableWidget>
@@ -59,6 +61,8 @@ CAbout::CAbout()
     refreshMIDIDestinations();
     
     refreshExternalDevices();
+    
+    refreshAudio();
     
 }
 
@@ -327,3 +331,61 @@ void CAbout::refreshMidiDevsDetails(QString devname)
 }
 
 
+std::string OSTypeToString(OSType type) {
+    char str[5] = {
+        static_cast<char>((type >> 24) & 0xFF),
+        static_cast<char>((type >> 16) & 0xFF),
+        static_cast<char>((type >> 8) & 0xFF),
+        static_cast<char>(type & 0xFF),
+        '\0'
+    };
+    return std::string(str);
+}
+
+void CAbout::refreshAudio()
+{
+    m_ui.tableAudio->clear();
+    
+    m_ui.tableAudio->verticalHeader()->setVisible(false);
+    
+    m_ui.tableAudio->setColumnCount(4);
+        
+    m_ui.tableAudio->horizontalHeader()->setStretchLastSection(true);
+
+    m_ui.tableAudio->setHorizontalHeaderLabels( QStringList( {"Name", "Type", "SubType", "Manufacturer"}) );
+    
+    AudioComponentDescription desc = {
+           kAudioUnitType_MusicDevice,
+           kAudioUnitSubType_Sampler,
+           kAudioUnitManufacturer_Apple,
+           0,
+           0
+       };
+
+    AudioComponent comp = AudioComponentFindNext(nullptr, &desc);
+    
+    while (comp != nullptr) {
+        AudioComponentDescription compDesc;
+        AudioComponentGetDescription(comp, &compDesc);
+
+               // Get the component name
+        CFStringRef nameCFString = nullptr;
+        AudioComponentCopyName(comp, &nameCFString);
+
+        char name[256];
+        if (nameCFString) {
+            CFStringGetCString(nameCFString, name, sizeof(name), kCFStringEncodingUTF8);
+            CFRelease(nameCFString);
+        } else {
+            snprintf(name, sizeof(name), "Unknown");
+        }
+        
+        m_ui.tableAudio->setRowCount(m_ui.tableAudio->rowCount()+1);
+        m_ui.tableAudio->setCellWidget(m_ui.tableAudio->rowCount()-1, 0, new QLabel(name));
+        m_ui.tableAudio->setCellWidget(m_ui.tableAudio->rowCount()-1, 1, new QLabel(QString::fromStdString(OSTypeToString(compDesc.componentType))));
+        m_ui.tableAudio->setCellWidget(m_ui.tableAudio->rowCount()-1, 2, new QLabel(QString::fromStdString(OSTypeToString(compDesc.componentSubType))));
+        m_ui.tableAudio->setCellWidget(m_ui.tableAudio->rowCount()-1, 3, new QLabel(QString::fromStdString(OSTypeToString(compDesc.componentManufacturer))));
+  
+        comp = AudioComponentFindNext(comp, &desc);
+    }
+};

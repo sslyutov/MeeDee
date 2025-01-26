@@ -69,8 +69,11 @@ INCLUDEPATH += $${INCROOT}/midiplaybackrecorder
 
 RESOURCES += meedee.qrc
 
-mac{
-    LIBS += -framework CoreMIDI
+macx{
+    LIBS += -framework AudioToolbox \
+            -framework CoreMIDI \
+            -framework CoreAudio \
+            -framework AVFoundation
 }
 
 # Default rules for deployment.

@@ -34,6 +34,8 @@ public:
     
     void refreshMidiDevsDetails(QString devname);
     
+    void refreshAudio(void);
+    
     private:
     
     Ui_AboutForm m_ui;

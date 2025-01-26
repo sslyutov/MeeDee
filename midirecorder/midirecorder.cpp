@@ -17,6 +17,5 @@ CMidiRecorder::CMidiRecorder(): QWidget(), IMidiRecorder()
     });
     
     qDebug() << bcon;
-   
 }
 

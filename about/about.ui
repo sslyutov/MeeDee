@@ -17,9 +17,9 @@
    <item>
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="QTabWidget" name="tabAudio">
        <property name="currentIndex">
-        <number>1</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="geninfotab">
         <attribute name="title">
@@ -104,6 +104,16 @@
         <layout class="QVBoxLayout" name="verticalLayout_4">
          <item>
           <widget class="QTableWidget" name="tableMIDIExt"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="audiocomptab">
+        <attribute name="title">
+         <string>Audio</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QTableWidget" name="tableAudio"/>
          </item>
         </layout>
        </widget>

@@ -25,7 +25,7 @@
 
 CMainWindow::CMainWindow(): QMainWindow()
 {
-    m_bgimage.load(":mainwindowbackground");
+    //m_bgimage.load(":mainwindowbackground");
     
     setWindowTitle(QApplication::tr("mainwindow creation"));
     
