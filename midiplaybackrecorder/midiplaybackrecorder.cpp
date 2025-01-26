@@ -21,11 +21,18 @@
 
 #include "lighthouse.h"
 
-void addMidiPlaybackRecorderTrack(QTreeWidget * ptreewidget)
+void addMidiPlaybackRecorder(QTreeWidget * ptreewidget)
 {
     QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
  
     ptreewidget->setItemWidget(item,0, new CMidiPlaybackRecorder());
+};
+
+void addMidiPlaybackSampler(QTreeWidget * ptreewidget)
+{
+    QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
+    
+    ptreewidget->setItemWidget(item, 0, new QWidget());
 };
 
 void showContextMenu(QTreeWidget * ptreewidget, const QPoint &pos)
@@ -33,15 +40,19 @@ void showContextMenu(QTreeWidget * ptreewidget, const QPoint &pos)
     QMenu contextMenu(ptreewidget);
 
     // Add actions to the menu
-    QAction *newplaybacktrack = contextMenu.addAction("new midi playback recorder track");
+    QAction *midisrc_mididest = contextMenu.addAction("new midi source with midi destination");
+    QAction *midisrc_sampler = contextMenu.addAction("new midi source with sampler");
+    
     
     // Execute the menu and get the selected action
     QAction *selectedAction = contextMenu.exec(ptreewidget->mapToGlobal(pos));
 
     // Handle the selected action
-    if (selectedAction == newplaybacktrack) {
-        
-        addMidiPlaybackRecorderTrack(ptreewidget);
+    if (selectedAction == midisrc_mididest) {
+        addMidiPlaybackRecorder(ptreewidget);
+    }
+    if(selectedAction == midisrc_sampler) {
+        addMidiPlaybackSampler(ptreewidget);
     }
 };
 
