@@ -68,6 +68,7 @@ INCLUDEPATH += $${INCROOT}/midioutputport
 INCLUDEPATH += $${INCROOT}/midirecorder
 INCLUDEPATH += $${INCROOT}/midiplayer
 INCLUDEPATH += $${INCROOT}/midiplaybackrecorder
+INCLUDEPATH += $${INCROOT}/midiplaybacksampler
 
 RESOURCES += meedee.qrc
 
