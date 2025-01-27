@@ -4,6 +4,10 @@
  * \date January 12, 2025
  * \author Sergey Slyutov */
 
+#ifndef _MIDIRECORDER_H
+
+#define _MIDIRECORDER_H
+
 #include "utils.h"
 
 #include <QWidget>
@@ -62,3 +66,5 @@ private:
     
     int m_state;
 };
+
+#endif // _MIDIRECORDER_H

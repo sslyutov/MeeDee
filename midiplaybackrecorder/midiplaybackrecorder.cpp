@@ -21,18 +21,13 @@
 
 #include "lighthouse.h"
 
+#include "midiplaybacksampler.h"
+
 void addMidiPlaybackRecorder(QTreeWidget * ptreewidget)
 {
     QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
  
     ptreewidget->setItemWidget(item,0, new CMidiPlaybackRecorder());
-};
-
-void addMidiPlaybackSampler(QTreeWidget * ptreewidget)
-{
-    QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
-    
-    ptreewidget->setItemWidget(item, 0, new QWidget());
 };
 
 void showContextMenu(QTreeWidget * ptreewidget, const QPoint &pos)

@@ -3,6 +3,9 @@
  * \date January 4, 2025
  * \author Sergey Slyutov
  */
+#ifndef _UTILS_H
+
+#define _UTILS_H
 
 #include <cstdint>
 
@@ -64,5 +67,7 @@ namespace ns_midispecs
 //  121         | Reset All Controllers         | Resets all controllers to their default state.
 //  123         | All Notes Off                 | Turns off all notes on the channel. 
 };
+
+#endif // _UTILS_H
 
 

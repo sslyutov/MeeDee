@@ -1,4 +1,3 @@
-
 /*!\brief combination of midi source and audio sampler
  * \file midiplaybacksampler.cpp
  * \author Sergey Slyutov
@@ -6,3 +5,31 @@
  */
 
 #include "midiplaybacksampler.h"
+
+#include <QTreeWidget>
+
+void addMidiPlaybackSampler(QTreeWidget* ptreewidget)
+{
+    QTreeWidgetItem * item = new QTreeWidgetItem(ptreewidget);
+    
+    ptreewidget->setItemWidget(item, 0, new CMidiPlaybackSampler());
+};
+
+CMidiPlaybackSampler::CMidiPlaybackSampler(QString name):
+QWidget()
+{};
+
+CMidiPlaybackSampler::~CMidiPlaybackSampler()
+{};
+
+void CMidiPlaybackSampler::startRecording(void)
+{};
+
+void CMidiPlaybackSampler::stopRecording(void)
+{};
+
+void CMidiPlaybackSampler::startPlayback(void)
+{};
+
+void CMidiPlaybackSampler::mutePlayback(void)
+{};

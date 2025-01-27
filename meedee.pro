@@ -30,7 +30,8 @@ FRMROOT = ./
 # In order to do so, uncomment the following line.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += $${SRCROOT}/main.cpp
+SOURCES += $${SRCROOT}/main.cpp \
+    midiplaybacksampler/midiplaybacksampler.cpp
 SOURCES += $${SRCROOT}/mainwindow/mainwindow.cpp
 SOURCES += $${SRCROOT}/about/about.cpp
 SOURCES += $${SRCROOT}/utils/utils.cpp
@@ -55,8 +56,10 @@ HEADERS += $${INCROOT}/midiplaybacksampler/midiplaybacksampler.h
 #interfaces
 HEADERS += $${INCROOT}/midirecorder/imidirecorder.h
 
-FORMS += $${FRMROOT}/about/about.ui
+FORMS += $${FRMROOT}/about/about.ui \
+    midiplaybacksampler/midiplaybacksampler.ui
 FORMS += $${FRMROOT}/midiplaybackrecorder/midiplaybackrecorder.ui
+FORMS += $${FRMROOT}/midiplaybacksampler/midiplaybacksampler.ui
 
 INCLUDEPATH += $${INCROOT}
 INCLUDEPATH += $${INCROOT}/mainwindow
