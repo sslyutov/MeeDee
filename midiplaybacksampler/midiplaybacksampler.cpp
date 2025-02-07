@@ -17,7 +17,19 @@ void addMidiPlaybackSampler(QTreeWidget* ptreewidget)
 
 CMidiPlaybackSampler::CMidiPlaybackSampler(QString name):
 QWidget()
-{};
+{
+    m_ui.setupUi(this);
+    m_ui.
+    
+    lineEditPlayRecName;
+ 
+    QComboBox *comboSrcChan;
+    QComboBox *comboSources;
+    
+    QComboBox *comboSampler;
+    QComboBox *comboInstrument;
+    
+};
 
 CMidiPlaybackSampler::~CMidiPlaybackSampler()
 {};

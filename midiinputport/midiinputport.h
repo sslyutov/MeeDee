@@ -37,7 +37,7 @@ public:
     
     static void cbmidiRead(const MIDIPacketList *packetList, void *srcConnRefCon);
     
-    static void cdMidiSourcesWatcher(void);
+    static void cbMidiSourcesWatcher(void);
 
     static void terminate(void){m_bwatcher = false;};
     

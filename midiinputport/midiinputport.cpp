@@ -32,7 +32,7 @@ CMIDIInputPort::CMIDIInputPort():
     
     m_bwatcher = true;
     
-    m_fwatcher = QtConcurrent::run(CMIDIInputPort::cdMidiSourcesWatcher);
+    m_fwatcher = QtConcurrent::run(CMIDIInputPort::cbMidiSourcesWatcher);
     
 }
 
@@ -107,7 +107,7 @@ CMIDIInputPort::~CMIDIInputPort()
 //    }
 //}
 
-void CMIDIInputPort::cdMidiSourcesWatcher(void)
+void CMIDIInputPort::cbMidiSourcesWatcher(void)
 {
     while(m_bwatcher){
         
