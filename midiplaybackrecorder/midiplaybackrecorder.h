@@ -15,6 +15,8 @@
 
 #include <QDockWidget>
 
+#include <QTreeWidget>
+
 #include "ui_midiplaybackrecorder.h"
 
 #define PLAYBACKRECORDERDOC "PlaybackRecorderDock" // object name for playbackrecorder QDockWidget
@@ -50,5 +52,7 @@ private:
     
     CMidiRecorder   m_midirecorder;
 };
+
+void addMidiPlaybackRecorder(QTreeWidget * ptreewidget);
 
 #endif // _MIDIPLAYBACKRECORDER_H
