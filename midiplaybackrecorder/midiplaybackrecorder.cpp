@@ -30,6 +30,7 @@ void addMidiPlaybackRecorder(QTreeWidget * ptreewidget)
     ptreewidget->setItemWidget(item,0, new CMidiPlaybackRecorder());
 };
 
+/*
 void showContextMenu(QTreeWidget * ptreewidget, const QPoint &pos)
 {
     QMenu contextMenu(ptreewidget);
@@ -76,10 +77,9 @@ QDockWidget * createPlaybackRecorderDoc(void)
    
     });
     
-   
-    
     return playbackrecorderdoc;
 };
+*/
 
 CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
     m_name(name)
