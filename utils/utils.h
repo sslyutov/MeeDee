@@ -68,6 +68,17 @@ namespace ns_midispecs
 //  123         | All Notes Off                 | Turns off all notes on the channel. 
 };
 
+
+class QComboBox;
+
+/* \fn fillup combobox with available sampler
+ * \param pcb pointer to combobox subject to fillup. */
+void fillupSampleCombobox(QComboBox * pcb);
+
+/* \fn fillup combobox with available instruments
+ * \param pcb pointer to combobox subject to fillup. */
+void fillupInstrumentCombobox(QComboBox * pcb);
+
 #endif // _UTILS_H
 
 

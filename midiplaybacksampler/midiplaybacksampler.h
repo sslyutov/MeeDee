@@ -16,6 +16,10 @@
 
 #include "ui_midiplaybacksampler.h"
 
+#include <AudioToolbox/AudioToolbox.h>
+
+#include <CoreFoundation/CoreFoundation.h>
+
 class CMidiPlaybackSampler: public QWidget
 {
    Q_OBJECT
@@ -35,6 +39,12 @@ public:
     void mutePlayback(void);
     
 private:
+    
+    OSStatus createAudioGraph(void);
+    
+    AUGraph m_audiograph;
+    
+    AudioUnit m_samplerunit;
     
     QString m_name; // nameidentifies the playbacksampler
     
