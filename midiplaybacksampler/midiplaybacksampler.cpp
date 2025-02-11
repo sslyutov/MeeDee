@@ -8,7 +8,39 @@
 
 #include <QTreeWidget>
 
+#include <QMenu>
 
+#include <QFileDialog>
+
+#include "utils.h"
+
+#include <QMessageBox>
+
+void showContextMenu(CMidiPlaybackSampler * ppbsmlr, const QPoint &pos)
+{
+    QMenu contextMenu(ppbsmlr->m_ui.comboSampler);
+    
+    // Add actions to the menu
+    QAction *assignsoundfont = contextMenu.addAction("assign sound font");
+    
+    // Execute the menu and get the selected action
+    QAction *selectedAction = contextMenu.exec(ppbsmlr->m_ui.comboSampler->mapToGlobal(pos));
+    
+    // Handle the selected action
+    if (selectedAction == assignsoundfont) {
+     
+        QString filePath = QFileDialog::getOpenFileName(nullptr, "Select a sound font file", "", "Sound Banks (*.dls *.sf2)");
+        
+        if( !isSoundFont(filePath) ){
+            
+            QMessageBox::information(NULL, qApp->applicationDisplayName(), QApplication::tr("The selected file %1 is not a sound font").arg(QFileInfo(filePath).fileName()), QMessageBox::Ok);
+        }else{
+            ppbsmlr->m_soundFont = filePath;
+            
+            std::list<SF2PresetHeader> instruments = sf2Instruments(filePath);
+        }
+    }
+};
 
 void addMidiPlaybackSampler(QTreeWidget* ptreewidget)
 {
@@ -22,22 +54,32 @@ void addMidiPlaybackSampler(QTreeWidget* ptreewidget)
 CMidiPlaybackSampler::CMidiPlaybackSampler(QString name):
 QWidget()
 {
+    m_soundFont = "/System/Library/Components/CoreAudio.component/Contents/Resources/gs_instruments.dls"; // default sound font
+    
     m_ui.setupUi(this);
+    
     m_ui.lineEditPlayRecName->setText("CMidiPlaybackSampler");
- 
-    QComboBox *comboSrcChan;
-    QComboBox *comboSources;
+    
+    fillupMidiSrcDstComboBoxes(m_ui.comboSources, m_ui.comboSrcChan, nullptr, nullptr);
     
     fillupSampleCombobox(m_ui.comboSampler);
     
-    QComboBox *comboInstrument;
     fillupInstrumentCombobox(m_ui.comboInstrument);
     
     createAudioGraph(); // create audio graph that uses Apple sampler and output
+    
+    m_ui.comboSampler->setContextMenuPolicy(Qt::CustomContextMenu);
+
+       // Connect the context menu signal
+    QObject::connect(m_ui.comboSampler, &QWidget::customContextMenuRequested,
+                        [=](const QPoint &pos) { showContextMenu(this, pos); });
 };
 
 CMidiPlaybackSampler::~CMidiPlaybackSampler()
-{};
+{
+    AUGraphStop( m_audiograph);
+    AUGraphClose(m_audiograph);
+};
 
 void CMidiPlaybackSampler::startRecording(void)
 {};

@@ -38,8 +38,6 @@ public:
     
     void mutePlayback(void);
     
-private:
-    
     OSStatus createAudioGraph(void);
     
     AUGraph m_audiograph;
@@ -52,6 +50,7 @@ private:
     
     CMidiRecorder   m_midirecorder;
     
+    QString m_soundFont;
 };
 
 void addMidiPlaybackSampler(QTreeWidget* ptreewidget);
