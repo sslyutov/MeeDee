@@ -9,6 +9,10 @@
 
 #include <cstdint>
 
+#include <QString>
+
+#include <list>
+
 namespace ns_midispecs
 {
     const short noteoff         = 0x80; // Note Off
@@ -71,6 +75,8 @@ namespace ns_midispecs
 
 class QComboBox;
 
+void fillupMidiSrcDstComboBoxes(QComboBox * pcbmidisrc, QComboBox * pcbmidisrcchan, QComboBox * pcbmididst, QComboBox * pcbmididstchan);
+
 /* \fn fillup combobox with available sampler
  * \param pcb pointer to combobox subject to fillup. */
 void fillupSampleCombobox(QComboBox * pcb);
@@ -78,6 +84,43 @@ void fillupSampleCombobox(QComboBox * pcb);
 /* \fn fillup combobox with available instruments
  * \param pcb pointer to combobox subject to fillup. */
 void fillupInstrumentCombobox(QComboBox * pcb);
+
+// sound fonts section below
+
+struct RIFFHeader {
+    char chunkID[4];    // "RIFF"
+    uint32_t chunkSize; // File size - 8 bytes
+    char format[4];     // "sfbk"
+};
+
+struct SF2Chunk {
+    char id[4];         // Chunk identifier (e.g., "INFO", "sdta", "pdta")
+    uint32_t size;      // Chunk size
+};
+
+struct DLSChunk {
+    char id[4];         // Chunk identifier (e.g., "INFO", "DLS ", "WAVE")
+    uint32_t size;      // Chunk size
+};
+
+/*!\fn isSoundFont
+ * \file path to file to check
+ * \return true is file has been identified as sound font, otherwise  false.
+ */
+bool isSoundFont(QString file);
+
+// SF2PresetHeader describe an instrument 
+struct SF2PresetHeader {
+    char name[20];  // Preset name (null-terminated string)
+    uint16_t preset; // MIDI program number
+    uint16_t bank;   // Bank number
+    uint16_t bagIndex; // Index into "pbag"
+    uint32_t library; // Reserved
+    uint32_t genre;   // Reserved
+    uint32_t morphology; // Reserved
+};
+
+std::list<SF2PresetHeader> sf2Instruments(QString filepath);
 
 #endif // _UTILS_H
 
