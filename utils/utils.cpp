@@ -26,6 +26,65 @@
 #include <thread>
 #include <chrono>
 
+#include <QFile>
+
+void fillupMidiSrcDstComboBoxes(QComboBox * pcbmidisrc, QComboBox * pcbmidisrcchan, QComboBox * pcbmididst, QComboBox * pcbmididstchan)
+{
+    if(pcbmidisrc){
+        ItemCount sourceCount = MIDIGetNumberOfSources();
+        for (ItemCount i = 0; i < sourceCount; ++i) {
+            MIDIEndpointRef endpoint = MIDIGetSource(i);
+            CFStringRef name = nullptr;
+            MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+            pcbmidisrc->addItem(QString::fromCFString(name));
+        }
+    }
+    
+    // sources channels
+    if(pcbmidisrcchan){
+        for(int i = 0; i < 16; i++){
+            qDebug() << QString("channel %1").arg(i+1);
+            pcbmidisrcchan->addItem(QString("channel %1").arg(i+1));
+            pcbmidisrcchan->setItemData(i, i+1);
+        }
+    }
+    
+    
+    // destination combobox
+    if(pcbmididst){
+        ItemCount destCount = MIDIGetNumberOfDestinations();
+        for(ItemCount i = 0; i < destCount; i++){
+            MIDIEndpointRef endpoint = MIDIGetDestination(i);
+            CFStringRef name = nullptr;
+            MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+            pcbmididst->addItem(QString::fromCFString(name));
+        }
+    }
+    
+    // destination channels
+    if(pcbmididstchan){
+        for(int i = 0 ; i < 16 ; i++){
+            pcbmididstchan->addItem(QString("channel %1").arg(i+1));
+            pcbmididstchan->setItemData(i, i+1);
+        }
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Global audio graph
 AUGraph audioGraph;
 AudioUnit samplerUnit;
@@ -347,80 +406,58 @@ void fillupInstrumentCombobox(QComboBox * pcb)
 
 
 
-// ************************************************************************************
-// parse sf2 file
-#include <iostream>
+
+
 #include <fstream>
-#include <vector>
-#include <string>
-#include <cstring>
-
-struct RIFFHeader {
-    char chunkID[4];    // "RIFF"
-    uint32_t chunkSize; // File size - 8 bytes
-    char format[4];     // "sfbk"
-};
-
-struct SF2Chunk {
-    char id[4];         // Chunk identifier (e.g., "INFO", "sdta", "pdta")
-    uint32_t size;      // Chunk size
-};
-
-// Helper function to read a string safely
-std::string ReadString(std::ifstream &file, size_t length) {
-    std::vector<char> buffer(length + 1, '\0');
-    file.read(buffer.data(), length);
-    return std::string(buffer.data());
-}
 
 // Function to parse an SF2 file
-void ParseSF2(const std::string &filename) {
-    std::ifstream file(filename, std::ios::binary);
+
+bool isSoundFont(QString filename)
+{
+    std::ifstream file(filename.toStdWString(), std::ios::binary);
     if (!file) {
         std::cerr << "Error: Could not open file.\n";
         return;
     }
-
-    // Read RIFF Header
+    
     RIFFHeader riff;
+    
     file.read(reinterpret_cast<char*>(&riff), sizeof(RIFFHeader));
-    if (strncmp(riff.chunkID, "RIFF", 4) != 0 || strncmp(riff.format, "sfbk", 4) != 0) {
-        std::cerr << "Error: Not a valid SF2 file.\n";
-        return;
+    
+    if(strncmp(riff.chunkID, "RIFF", 4) != 0 ||
+       (strncmp(riff.format, "DLS ", 4) != 0  && strncmp(riff.format, "sfbk", 4) != 0)){
+        return false;
     }
+    
+    return true;
+};
 
-    std::cout << "Valid SF2 file detected.\n";
-
-    // Read Chunks
-    while (file.read(reinterpret_cast<char*>(&riff), sizeof(SF2Chunk))) {
-        std::string chunkID(riff.chunkID, 4);
-        std::cout << "Found Chunk: " << chunkID << " (Size: " << riff.chunkSize << " bytes)\n";
-
-        if (chunkID == "INFO") {
-            std::cout << "Reading INFO chunk (Metadata)...\n";
-        } else if (chunkID == "sdta") {
-            std::cout << "Reading SDTA chunk (Sample Data)...\n";
-        } else if (chunkID == "pdta") {
-            std::cout << "Reading PDTA chunk (Preset Data)...\n";
-        }
-
-        // Skip to the next chunk
-        file.seekg(riff.chunkSize, std::ios::cur);
+std::list<SF2PresetHeader> sf2Instruments(QString filepath)
+{
+    std::list<SF2PresetHeader> list;
+    
+    QFile sf2file(filepath);
+    
+    sf2file.open(QFile::ReadOnly);
+    
+    QByteArray data = sf2file.readAll();
+    
+    int pos = data.indexOf("phdr");
+    
+    if(pos == -1)
+        
+        return list;
+    
+    const SF2PresetHeader * preset = reinterpret_cast<const SF2PresetHeader*>(data.data() + pos);
+    
+    while(preset->preset != 0xFFFF){
+        
+        list.push_back(*preset);
+        
+        ++preset;
     }
-
-    std::cout << "SF2 Parsing Completed.\n";
+    return list;
 }
-
-int parseSF2(int argc, char* argv[]) {
-    if (argc < 2) {
-        std::cerr << "Usage: " << argv[0] << " <soundfont.sf2>\n";
-        return 1;
-    }
-
-    ParseSF2(argv[1]);
-    return 0;
-}
-
 
 
 
