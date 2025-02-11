@@ -30,57 +30,6 @@ void addMidiPlaybackRecorder(QTreeWidget * ptreewidget)
     ptreewidget->setItemWidget(item,0, new CMidiPlaybackRecorder());
 };
 
-/*
-void showContextMenu(QTreeWidget * ptreewidget, const QPoint &pos)
-{
-    QMenu contextMenu(ptreewidget);
-
-    // Add actions to the menu
-    QAction *midisrc_mididest = contextMenu.addAction("new midi source with midi destination");
-    QAction *midisrc_sampler = contextMenu.addAction("new midi source with sampler");
-    
-    
-    // Execute the menu and get the selected action
-    QAction *selectedAction = contextMenu.exec(ptreewidget->mapToGlobal(pos));
-
-    // Handle the selected action
-    if (selectedAction == midisrc_mididest) {
-        addMidiPlaybackRecorder(ptreewidget);
-    }
-    if(selectedAction == midisrc_sampler) {
-        addMidiPlaybackSampler(ptreewidget);
-    }
-};
-
-
-QDockWidget * createPlaybackRecorderDoc(void)
-{
-    QDockWidget * playbackrecorderdoc = new QDockWidget();
-    
-    playbackrecorderdoc->setFeatures(playbackrecorderdoc->features() & ~QDockWidget::DockWidgetClosable);
-
-    playbackrecorderdoc->setObjectName(PLAYBACKRECORDERDOC);
-    
-    QTreeWidget * pinputchantree = new QTreeWidget();
-    
-    //ptree->addTopLevelItem(new QTreeWidgetItem("MIDI Playback Recorder"));
-    
-    pinputchantree->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    
-    playbackrecorderdoc->setWidget(pinputchantree);
-      
-    pinputchantree->setContextMenuPolicy(Qt::CustomContextMenu);
-    
-    QObject::connect( pinputchantree, &QWidget::customContextMenuRequested, pinputchantree, [=](const QPoint &pos){
-    
-        showContextMenu(pinputchantree, pos);
-   
-    });
-    
-    return playbackrecorderdoc;
-};
-*/
-
 CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
     m_name(name)
 {
@@ -100,34 +49,7 @@ CMidiPlaybackRecorder::CMidiPlaybackRecorder(QString name):
         QMessageBox::information(NULL, qApp->applicationDisplayName(),"handle stop playback", QMessageBox::Ok);
     });
     
-    // sources combobox
-    ItemCount sourceCount = MIDIGetNumberOfSources();
-    for (ItemCount i = 0; i < sourceCount; ++i) {
-        MIDIEndpointRef endpoint = MIDIGetSource(i);
-        CFStringRef name = nullptr;
-        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
-        m_ui.comboSources->addItem(QString::fromCFString(name));
-    }
-    // sources channels
-    for(int i = 0; i < 16; i++){
-        m_ui.comboSrcChan->addItem(QString("channel %1").arg(i+1));
-        m_ui.comboDstChan->setItemData(i, Qt::UserRole, i+1);
-    }
-    
-    
-    // destination combobox
-    ItemCount destCount = MIDIGetNumberOfDestinations();
-    for(ItemCount i = 0; i < destCount; i++){
-        MIDIEndpointRef endpoint = MIDIGetDestination(i);
-        CFStringRef name = nullptr;
-        MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
-        m_ui.comboDestinations->addItem(QString::fromCFString(name));
-    }
-    // destination channels
-    for(int i = 0 ; i < 16 ; i++){
-        m_ui.comboDstChan->addItem(QString("channel %1").arg(i+1));
-        m_ui.comboDstChan->setItemData(i, Qt::UserRole, i+1);
-    }
+    fillupMidiSrcDstComboBoxes(m_ui.comboSources, m_ui.comboSrcChan, m_ui.comboDestinations, m_ui.comboDstChan);
 };
 
 CMidiPlaybackRecorder:: ~CMidiPlaybackRecorder()
