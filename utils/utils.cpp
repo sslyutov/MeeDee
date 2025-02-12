@@ -448,7 +448,7 @@ std::list<SF2PresetHeader> sf2Instruments(QString filepath)
         
         return list;
     
-    const SF2PresetHeader * preset = reinterpret_cast<const SF2PresetHeader*>(data.data() + pos);
+    const SF2PresetHeader * preset = reinterpret_cast<const SF2PresetHeader*>(data.data() + pos + sizeof(SF2Chunk));
     
     while(preset->preset != 0xFFFF){
         
