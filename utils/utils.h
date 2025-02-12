@@ -1,8 +1,7 @@
-/*\!brief
+/* \brief assembly of utilities used across the application
  * \file utils.h
  * \date January 4, 2025
- * \author Sergey Slyutov
- */
+ * \author Sergey Slyutov */
 #ifndef _UTILS_H
 
 #define _UTILS_H
@@ -12,6 +11,10 @@
 #include <QString>
 
 #include <list>
+
+#include <fstream>
+
+#include <QMetaType>
 
 namespace ns_midispecs
 {
@@ -103,7 +106,7 @@ struct DLSChunk {
     uint32_t size;      // Chunk size
 };
 
-/*!\fn isSoundFont
+/* \fn isSoundFont
  * \file path to file to check
  * \return true is file has been identified as sound font, otherwise  false.
  */
@@ -111,14 +114,17 @@ bool isSoundFont(QString file);
 
 // SF2PresetHeader describe an instrument 
 struct SF2PresetHeader {
-    char name[20];  // Preset name (null-terminated string)
-    uint16_t preset; // MIDI program number
-    uint16_t bank;   // Bank number
-    uint16_t bagIndex; // Index into "pbag"
+    char presetName[20];  // Preset name (null-terminated string)
+    uint16_t presetNumber; // MIDI program number
+    uint16_t bankNumber;   // Bank number
+    uint16_t presetBagIndex; // Index into "pbag"
     uint32_t library; // Reserved
     uint32_t genre;   // Reserved
     uint32_t morphology; // Reserved
 };
+
+Q_DECLARE_METATYPE(SF2PresetHeader)
+
 
 std::list<SF2PresetHeader> sf2Instruments(QString filepath);
 

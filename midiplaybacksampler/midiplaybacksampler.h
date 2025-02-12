@@ -40,9 +40,9 @@ public:
     
     OSStatus createAudioGraph(void);
     
-    AUGraph m_audiograph;
+    AUGraph m_audioGraph;
     
-    AudioUnit m_samplerunit;
+    AudioUnit m_samplerUnit;
     
     QString m_name; // nameidentifies the playbacksampler
     
