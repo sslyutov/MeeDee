@@ -126,16 +126,37 @@ void CMIDIInputPort::cbMidiSourcesWatcher(void)
 auto readCallback = [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon)
 
 {
+    //qDebug() << "protocol:" << evtlist->protocol;
+    
+    UInt8 byte0 = 0;
+    UInt8 byte1 = 0;
+    UInt8 byte2 = 0;
+    UInt8 byte3 = 0;
+    
     for (unsigned int i = 0; i < evtlist->numPackets; ++i) {
         const MIDIEventPacket &packet = evtlist->packet[i];
         //qDebug() << "srcConnRefCon: " << srcConnRefCon << "; Timestamp: " << packet.timeStamp << " Data: ";
-        
         for (unsigned int j = 0; j < packet.wordCount; ++j) {
-            //qDebug() << "wordCount:" << packet.wordCount << "; index:" << j << std::hex << static_cast<UInt32>(packet.words[j]) << " ";
+            UInt32 midiWord = packet.words[j];
+            // Extract MIDI status, data1, data2
+            
+            byte0 = (midiWord & 0x000000ff); // Remove channel info (lower 4 bits)
+            byte1 = (midiWord & 0x0000ff00) >> 8; // Remove channel info (lower 4 bits)
+            byte2 = (midiWord & 0x00ff0000) >> 16; // Remove channel info (lower 4 bits)
+            byte3 = (midiWord & 0xff000000) >> 24; // Remove channel info (lower 4 bits)
+               
+            //qDebug()
+            //    << QString::number(status1, 2).rightJustified(8, '0')
+            //    << QString::number(status3, 2).rightJustified(8, '0')
+            //    << QString::number(status5, 2).rightJustified(8, '0')
+            //    << QString::number(status7, 2).rightJustified(8, '0');
         }
+    }
+    if( byte2 != 0xFE){
+        
+        qDebug() << "channel:" << (byte2 & 0x0f) << " status:" << (byte2 & 0xf0) << " note:" << byte1 << " velocity:" << byte0; 
         
         CLighthouse::This()->emit midiEventList(evtlist, srcConnRefCon);
-        
     }
 };
 

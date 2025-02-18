@@ -51,6 +51,10 @@ public:
     CMidiRecorder   m_midirecorder;
     
     QString m_soundFont;
+    
+    protected slots:
+    
+        void handleMidiEventList(const MIDIEventList *evtlist, void * __nullable srcConnRefCon);
 };
 
 void addMidiPlaybackSampler(QTreeWidget* ptreewidget);

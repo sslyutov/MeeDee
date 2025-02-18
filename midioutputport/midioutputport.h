@@ -44,7 +44,7 @@ private:
     
     static void reignite(void);
     
-    static void cdMidiDesctinationsWatcher(void);
+    static void cdMidiDestinationsWatcher(void);
         
     QFuture<void> m_fwatcher;
     
