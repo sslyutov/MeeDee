@@ -34,6 +34,8 @@ public:
     
     void stopRecording(void);
     
+    void pauseRecording(void);
+    
     void startPlayback(void);
     
     void mutePlayback(void);

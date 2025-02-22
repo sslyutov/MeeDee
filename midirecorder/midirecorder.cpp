@@ -7,15 +7,32 @@
 
 #include "lighthouse.h"
 
-CMidiRecorder::CMidiRecorder(): QWidget(), IMidiRecorder()
+#include <QWidget>
+
+struct MIDIContext {
+    int id;
+    const char* name;
+};
+
+CMidiRecorder::CMidiRecorder():
+    //QWidget()
+     IMidiRecorder()
+    , m_state(MidiRecorderState::stopped)
+    , m_srcid(0)
+    , m_chan(0)
 {
-//
-//    bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon){
-//
-//        qDebug() << "midi event list";
-//
-//    });
-//
-//    qDebug() << bcon;
+
+    bool bcon = QObject::connect(CLighthouse::This(), &CLighthouse::midiEventList, [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon){
+
+        if(srcConnRefCon){
+            
+            MIDIContext * midicontext = static_cast<MIDIContext*>(srcConnRefCon);
+            
+            qDebug() << "srcConnRefCon id:" << midicontext->id << " name:" << midicontext->name;
+        }
+
+    });
+
+    qDebug() << bcon;
 }
 

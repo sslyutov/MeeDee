@@ -36,7 +36,15 @@ void fillupMidiSrcDstComboBoxes(QComboBox * pcbmidisrc, QComboBox * pcbmidisrcch
             MIDIEndpointRef endpoint = MIDIGetSource(i);
             CFStringRef name = nullptr;
             MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+            
+            MIDIObjectSetStringProperty(endpoint, kMIDIPropertyName, QString("%1-%2")
+                                        .arg(QString::fromCFString(name))
+                                        .arg(i).toCFString());
+            CFRelease(name);
+            MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+            
             pcbmidisrc->addItem(QString::fromCFString(name));
+            CFRelease(name);
         }
     }
     

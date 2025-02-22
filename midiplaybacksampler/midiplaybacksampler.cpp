@@ -101,7 +101,8 @@ QWidget()
          AUSamplerInstrumentData instdata;
         instdata.fileURL  = soundFontURL; //(CFURLRef) bankURL;
         instdata.instrumentType = kInstrumentType_DLSPreset;
-        instdata.bankMSB  = 121; //kAUSampler_DefaultMelodicBankMSB;
+        //instdata.bankMSB  = 121;
+        instdata.bankMSB  = kAUSampler_DefaultMelodicBankMSB;
         instdata.bankLSB  = 0; //kAUSampler_DefaultBankLSB;
         
          instdata.presetID = (UInt8) presetNumber;
@@ -115,6 +116,7 @@ QWidget()
                                        sizeof(instdata));
 
         UInt8 note = 60;   // Middle C
+        
         UInt8 velocity = 100;  // Volume
 
         std::cout << "Playing note: " << (int)note << std::endl;
@@ -139,10 +141,19 @@ CMidiPlaybackSampler::~CMidiPlaybackSampler()
 };
 
 void CMidiPlaybackSampler::startRecording(void)
-{};
+{
+    m_midirecorder.start();
+};
 
 void CMidiPlaybackSampler::stopRecording(void)
-{};
+{
+    m_midirecorder.stop();
+};
+
+void CMidiPlaybackSampler::pauseRecording(void)
+{
+    m_midirecorder.pause();
+};
 
 void CMidiPlaybackSampler::startPlayback(void)
 {};
@@ -173,6 +184,7 @@ OSStatus CMidiPlaybackSampler::createAudioGraph(void)
     AudioComponentDescription outputDesc = {};
     outputDesc.componentType = kAudioUnitType_Output;
     outputDesc.componentSubType = kAudioUnitSubType_DefaultOutput;
+    //outputDesc.componentSubType = kAudioUnitSubType_GenericOutput;
     outputDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
     AUNode outputNode;

@@ -16,6 +16,8 @@
 
 #include <QMetaType>
 
+#include <string.h>
+
 namespace ns_midispecs
 {
     const short noteoff         = 0x80; // Note Off
@@ -74,7 +76,6 @@ namespace ns_midispecs
 //  121         | Reset All Controllers         | Resets all controllers to their default state.
 //  123         | All Notes Off                 | Turns off all notes on the channel. 
 };
-
 
 class QComboBox;
 

@@ -9,6 +9,13 @@
 
 #include <QObject>
 
+enum MidiRecorderState
+{
+    stopped     = 0,
+    recording   = 1,
+    paused      = 2
+};
+
 class IMidiRecorder: public QObject
 {
     Q_OBJECT

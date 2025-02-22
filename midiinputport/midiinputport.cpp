@@ -10,6 +10,10 @@
 
 #include <QtConcurrent>
 
+#include "utils.h"
+
+#include <CoreAudio/HostTime.h>
+
 static mach_timebase_info_data_t timebaseInfo = {0, 0};
 
 CMIDIInputPort* CMIDIInputPort::m_this = NULL;
@@ -21,7 +25,6 @@ ItemCount CMIDIInputPort::m_prevSrcCount = 0;
 MIDIPortRef CMIDIInputPort::m_inputPort(NULL);
 
 MIDIClientRef CMIDIInputPort::m_midiClient(NULL);
-
 
 CMIDIInputPort::CMIDIInputPort():
     QWidget()
@@ -46,66 +49,6 @@ CMIDIInputPort::~CMIDIInputPort()
 
     MIDIClientDispose(m_midiClient);
 }
-
-//void CMIDIInputPort::cbMidiRead(const MIDIPacketList * packetlist, void * readProcRefCon, void * srcConnRefCon )
-//{
-//    (void)readProcRefCon;
-//
-//    (void)srcConnRefCon;
-//
-//    for (unsigned int i = 0; i < packetlist->numPackets; ++i) {
-//
-//        const MIDIPacket& packet = packetlist->packet[i];
-//
-//        const uint8_t* data = packet.data;
-//
-//        if (timebaseInfo.denom == 0) {
-//            mach_timebase_info(&timebaseInfo); // Initialize timebase info once
-//        }
-//
-//        // Convert Mach units to nanoseconds
-//        uint64_t tsmidi =  packet.timeStamp * timebaseInfo.numer / timebaseInfo.denom;
-//        double dtsmidi = tsmidi;
-//        // Print each byte in the packet
-//        //qDebug() << "Timestamp: " << packet.timeStamp << " Data: ";
-//        qDebug() << dtsmidi/1000000000.0;
-//
-//        CLighthouse::This()->emit CLighthouse::heartbit_0xfe(tsmidi);
-//
-//        for (unsigned int j = 0; j < packet.length; ++j) {
-//
-//            qDebug() << static_cast<int>(data[j]);
-//        }
-//    }
-//}
-
-//void cbmidiRead(const MIDIPacketList *packetlist, void *srcConnRefCon)
-//{
-//    for (unsigned int i = 0; i < packetlist->numPackets; ++i) {
-//
-//        const MIDIPacket& packet = packetlist->packet[i];
-//
-//        const uint8_t* data = packet.data;
-//
-//        if (timebaseInfo.denom == 0) {
-//            mach_timebase_info(&timebaseInfo); // Initialize timebase info once
-//        }
-//
-//        // Convert Mach units to nanoseconds
-//        uint64_t tsmidi =  packet.timeStamp * timebaseInfo.numer / timebaseInfo.denom;
-//        double dtsmidi = tsmidi;
-//        // Print each byte in the packet
-//        //qDebug() << "Timestamp: " << packet.timeStamp << " Data: ";
-//        qDebug() << dtsmidi/1000000000.0;
-//
-//        CLighthouse::This()->emit CLighthouse::heartbit_0xfe(tsmidi);
-//
-//        for (unsigned int j = 0; j < packet.length; ++j) {
-//
-//            qDebug() << static_cast<int>(data[j]);
-//        }
-//    }
-//}
 
 void CMIDIInputPort::cbMidiSourcesWatcher(void)
 {
@@ -135,7 +78,9 @@ auto readCallback = [](const MIDIEventList *evtlist, void * __nullable srcConnRe
     
     for (unsigned int i = 0; i < evtlist->numPackets; ++i) {
         const MIDIEventPacket &packet = evtlist->packet[i];
-        //qDebug() << "srcConnRefCon: " << srcConnRefCon << "; Timestamp: " << packet.timeStamp << " Data: ";
+        
+       // qDebug() << "timestamp:" << AudioConvertHostTimeToNanos(packet.timeStamp) << " nSecs";
+      
         for (unsigned int j = 0; j < packet.wordCount; ++j) {
             UInt32 midiWord = packet.words[j];
             // Extract MIDI status, data1, data2
@@ -144,22 +89,15 @@ auto readCallback = [](const MIDIEventList *evtlist, void * __nullable srcConnRe
             byte1 = (midiWord & 0x0000ff00) >> 8; // Remove channel info (lower 4 bits)
             byte2 = (midiWord & 0x00ff0000) >> 16; // Remove channel info (lower 4 bits)
             byte3 = (midiWord & 0xff000000) >> 24; // Remove channel info (lower 4 bits)
-               
-            //qDebug()
-            //    << QString::number(status1, 2).rightJustified(8, '0')
-            //    << QString::number(status3, 2).rightJustified(8, '0')
-            //    << QString::number(status5, 2).rightJustified(8, '0')
-            //    << QString::number(status7, 2).rightJustified(8, '0');
         }
     }
     if( byte2 != 0xFE){
         
-        qDebug() << "channel:" << (byte2 & 0x0f) << " status:" << (byte2 & 0xf0) << " note:" << byte1 << " velocity:" << byte0; 
+        qDebug() << "channel:" << (byte2 & 0x0f) << " status:" << (byte2 & 0xf0) << " note:" << byte1 << " velocity:" << byte0;
         
         CLighthouse::This()->emit midiEventList(evtlist, srcConnRefCon);
     }
 };
-
 
 void CMIDIInputPort::reignite(void)
 {
@@ -203,7 +141,7 @@ void CMIDIInputPort::reignite(void)
         
         if (srcendpoint != 0) {
             
-            status = MIDIPortConnectSource(m_inputPort, srcendpoint, nullptr);
+            status = MIDIPortConnectSource(m_inputPort, srcendpoint, new int(i));
             
             if (status != noErr) {
                 
