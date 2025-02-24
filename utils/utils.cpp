@@ -36,14 +36,21 @@ void fillupMidiSrcDstComboBoxes(QComboBox * pcbmidisrc, QComboBox * pcbmidisrcch
             MIDIEndpointRef endpoint = MIDIGetSource(i);
             CFStringRef name = nullptr;
             MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+     
+            SInt32 srcid;
+            MIDIObjectGetIntegerProperty(endpoint, kMIDIPropertyUniqueID, &srcid);
+            
             
             MIDIObjectSetStringProperty(endpoint, kMIDIPropertyName, QString("%1-%2")
                                         .arg(QString::fromCFString(name))
-                                        .arg(i).toCFString());
+                                        .arg(srcid).toCFString());
             CFRelease(name);
+            
             MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
             
             pcbmidisrc->addItem(QString::fromCFString(name));
+            pcbmidisrc->setItemData(pcbmidisrc->count()-1, srcid); // sourceid will be received with midi package
+                                        
             CFRelease(name);
         }
     }
@@ -62,9 +69,23 @@ void fillupMidiSrcDstComboBoxes(QComboBox * pcbmidisrc, QComboBox * pcbmidisrcch
         ItemCount destCount = MIDIGetNumberOfDestinations();
         for(ItemCount i = 0; i < destCount; i++){
             MIDIEndpointRef endpoint = MIDIGetDestination(i);
+           
+            SInt32 dstid;
+            MIDIObjectGetIntegerProperty(endpoint, kMIDIPropertyUniqueID, &dstid);
+                       
             CFStringRef name = nullptr;
             MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+            
+            MIDIObjectSetStringProperty(endpoint, kMIDIPropertyName, QString("%1-%2")
+                                        .arg(QString::fromCFString(name))
+                                        .arg(dstid).toCFString());
+            CFRelease(name);
+            
+            MIDIObjectGetStringProperty(endpoint, kMIDIPropertyName, &name);
+                        
             pcbmididst->addItem(QString::fromCFString(name));
+            pcbmididst->setItemData(pcbmididst->count()-1, dstid);
+            CFRelease(name);
         }
     }
     
