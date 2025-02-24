@@ -14,6 +14,8 @@
 
 #include <CoreAudio/HostTime.h>
 
+#include <CoreMIDI/CoreMIDI.h>
+
 static mach_timebase_info_data_t timebaseInfo = {0, 0};
 
 CMIDIInputPort* CMIDIInputPort::m_this = NULL;
@@ -69,7 +71,8 @@ void CMIDIInputPort::cbMidiSourcesWatcher(void)
 auto readCallback = [](const MIDIEventList *evtlist, void * __nullable srcConnRefCon)
 
 {
-    //qDebug() << "protocol:" << evtlist->protocol;
+    //if(srcConnRefCon)
+    //    qDebug() << srcConnRefCon << "" << *(UInt32*)srcConnRefCon;
     
     UInt8 byte0 = 0;
     UInt8 byte1 = 0;
@@ -121,7 +124,7 @@ void CMIDIInputPort::reignite(void)
     }
     
     // Create an input port
-    //status =
+    
     status = MIDIInputPortCreateWithProtocol(m_midiClient, CFSTR("Input Port"), kMIDIProtocol_1_0, &m_inputPort
             , ^(const MIDIEventList *eventList, void *srcConnRefCon)
     {
@@ -141,7 +144,11 @@ void CMIDIInputPort::reignite(void)
         
         if (srcendpoint != 0) {
             
-            status = MIDIPortConnectSource(m_inputPort, srcendpoint, new int(i));
+       
+            SInt32 srcid;
+            MIDIObjectGetIntegerProperty(srcendpoint, kMIDIPropertyUniqueID, &srcid);
+            
+            status = MIDIPortConnectSource(m_inputPort, srcendpoint, new int(srcid));
             
             if (status != noErr) {
                 

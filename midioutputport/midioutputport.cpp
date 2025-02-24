@@ -25,7 +25,7 @@ CMIDIOutputPort::CMIDIOutputPort():  QWidget()
     
     m_bwatcher = true;
     
-    m_fwatcher = QtConcurrent::run(CMIDIOutputPort::cdMidiDestinationsWatcher);
+    //m_fwatcher = QtConcurrent::run(CMIDIOutputPort::cdMidiDestinationsWatcher);
 };
 
 
